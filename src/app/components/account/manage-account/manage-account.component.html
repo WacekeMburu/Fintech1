@@ -1,0 +1,44 @@
+<!-- <p>manage-account works!</p> -->
+<h2>Account List</h2>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Account Number</th>
+      <th>Customer Name</th>
+      <th>Account Type</th>
+      <th>Balance</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let account of account">
+      <td>{{ account.accountNumber }}</td>
+      <td>{{ account.customerName }}</td>
+      <td>
+        <span *ngIf="editingAccount !== account.accountNumber">{{ account.accountType }}</span>
+        <select *ngIf="editingAccount === account.accountNumber" [(ngModel)]="editableAccount.accountType">
+            <option value="Savings">Savings</option>
+            <option value="Checking">Checking</option>
+          </select>
+      </td>
+      <td>{{ account.balance | currency }}</td>
+      <td>
+        <span *ngIf="editingAccount !== account.accountNumber">{{ account.status }}</span>
+            <select *ngIf="editingAccount === account.accountNumber" [(ngModel)]="editableAccount.status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+    </td>
+
+    <td>
+        <button (click)="toggleEdit(account)">{{ editingAccount === account.accountNumber ? 'Save' : 'Edit' }}</button>
+        <button *ngIf="editingAccount === account.accountNumber" (click)="cancelEdit()">Cancel</button>
+        <button (click)="deleteAccount(account.accountNumber)">Delete</button>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Button to add a new account -->
+<a routerLink="/add-account"><button>Add New Account</button></a>

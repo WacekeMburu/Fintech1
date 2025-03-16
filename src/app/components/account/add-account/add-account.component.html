@@ -1,0 +1,37 @@
+<div class="account-form">
+    <h2>Create New Account</h2>
+    <form (ngSubmit)="onSubmit()" #accountForm="ngForm"></form>
+    
+    <label>Account Number:</label>
+    <input type="text" [(ngModel)]="account.accountNumber" placeholder="Enter Account Number" name="accountNumber" disabled>
+    
+    <label>Select Customer:</label>
+    <select [(ngModel)]="account.customerName" name="customerName" required>
+      <option *ngFor="let customer of customer" [value]="customer.idng">
+        {{ customer.id }} - {{ customer.fullName }}
+      </option>
+    </select>
+    <!-- <input type="text" [(ngModel)]="account.customerId" placeholder="Enter Customer ID" required> -->
+  
+    <label>Account Type:</label>
+    <select [(ngModel)]="account.accountType">
+      <option value="Savings">Savings</option>
+      <option value="Checking">Checking</option>
+      <option value="Business">Business</option>
+
+    </select>
+  
+    <label>Initial Balance:</label>
+    <input type="number" [(ngModel)]="account.balance" placeholder="Enter Initial Balance" min="0">
+  
+    <label>Status:</label>
+    <select [(ngModel)]="account.status">
+      <option value="Active">Active</option>
+      <option value="Suspended">Suspended</option>
+      <option value="Closed">Closed</option>
+
+    </select>
+  
+    <button (click) ="onSubmit()" type="submit">Create Account</button>
+  </div>
+  

@@ -1,0 +1,35 @@
+
+<form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="loan-form">
+    <label>Full Name:</label>
+    <input formControlName="fullName" type="text" required>
+    
+    <label>Email:</label>
+    <input formControlName="email" type="email" required>
+    
+    <label>Phone Number:</label>
+    <input formControlName="phoneNumber" type="number" required>
+
+
+   
+    <label>Date of Registration:</label>
+    <input formControlName="registrationDate"type="date" required>
+     
+        
+    <label>Customer Type:</label>
+    <select formControlName="customerType">
+      <option value="individual">Individual</option>
+      <option value="business">Business</option>
+      <!-- <option value="home">Home</option> -->
+    </select>  
+
+    <label for="profilePicture">Profile Picture:</label>
+    <input type="file" formControlName="profilePicture" (change)="onFileSelected($event)" accept="image/*" required />
+    <img *ngIf="base64Image" [src]="base64Image" alt="Profile Picture" width="100">
+
+
+    <!-- <button (click)="onSubmit()" class="submit-button"  >Submit</button> -->
+    
+  <button (click)="onSubmit()" class="submit-button" >Submit</button>
+    <!-- [disabled]="!employeeForm.valid"  -->
+  </form>
+ 

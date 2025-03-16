@@ -1,0 +1,95 @@
+<!-- <h2>Transaction List</h2> -->
+
+ <!-- Transaction Form  -->
+<!--  
+<form (submit)="addTransaction()">
+  <label for="accountNumber">Account Number:</label>
+  <input type="text" id="accountNumber" [(ngModel)]="newTransaction.accountNumber" name="accountNumber" required>
+
+  <label for="type">Transaction Type:</label>
+  <select id="type" [(ngModel)]="newTransaction.type" name="type">
+    <option value="Deposit">Deposit</option>
+    <option value="Withdrawal">Withdrawal</option>
+    <option value="Withdrawal">Transfer</option>
+    <option value="Withdrawal">Loan Payment</option>
+  </select>
+
+  <label for="amount">Amount:</label>
+  <input type="number" id="amount" [(ngModel)]="newTransaction.amount" name="amount" required>
+
+  
+  <label for="date">Date:</label>
+  <input type="date" id="date" [(ngModel)]="newTransaction.transactionDate" name="date" required>
+
+  <label>Status:</label>
+  <select [(ngModel)]="newTransaction.status" name="status">
+    <option value="pending">Pending</option>
+    <option value="approved">Approved</option>
+    <option value="rejected">Rejected</option>
+
+  </select>
+
+
+  <button type="submit">Add Transaction</button>
+</form> -->
+
+<!-- Transaction Table -->
+<table>
+    <thead>
+      <tr>
+        <th>Account Number</th>
+        <th>Transaction Type</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let transaction of transactions">
+        <td>{{ transaction.accountNumber }}</td>
+        <!-- Transaction type -->
+        <td *ngIf="!editingTransaction || editingTransaction.id !== transaction.id">{{ transaction.type }}</td>
+        <td *ngIf="editingTransaction && editingTransaction.id === transaction.id">
+          <select [(ngModel)]="editingTransaction.type">
+            <option value="Deposit">Deposit</option>
+            <option value="Withdrawal">Withdrawal</option>
+            <option value="Transfer">Transfer</option>
+            <option value="Loan Payment">Loan Payment</option>
+          </select>
+        </td>
+  
+  
+         <!-- Amount -->
+        <td *ngIf="!editingTransaction || editingTransaction.id !== transaction.id">{{ transaction.amount | currency }}</td>
+        <td *ngIf="editingTransaction && editingTransaction.id === transaction.id">
+          <input type="number" [(ngModel)]="editingTransaction.amount">
+        </td>
+  
+        <!-- date -->
+        <td>{{ transaction.date | date:'short' }}</td>
+  
+        <!-- status -->
+        <td *ngIf="!editingTransaction || editingTransaction.id !== transaction.id">{{ transaction.status}}</td>
+        <td *ngIf="editingTransaction && editingTransaction.id === transaction.id">
+         <td> <select [(ngModel)]="editingTransaction.status">
+            <option value="Pending">Pending</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </td>
+  
+        <td>
+          <td>
+            <button (click)="editingTransaction && editingTransaction.id === transaction.id ? saveTransaction() : editingTransaction(transaction)">
+              {{ editingTransaction && editingTransaction.id === transaction.id ? 'Save' : 'Edit' }}
+            </button>
+            <button *ngIf="editingTransaction && editingTransaction.id === transaction.id" (click)="cancelEdit()">Cancel</button>
+          </td>
+          <!-- <button (click)="deleteTransaction(transaction.id)">Delete</button> -->
+          <tr *ngFor="let transaction of transactions; trackBy: trackById">
+  
+      </tr>
+    </tbody>
+  </table>
+  

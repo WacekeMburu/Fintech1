@@ -1,0 +1,31 @@
+
+<h2>Add Transaction</h2>
+
+<form (submit)="addTransaction()">
+  <label for="accountNumber">Account Number:</label>
+  <input type="text" id="accountNumber" [(ngModel)]="transaction.accountNumber" name="accountNumber" required>
+
+  <label for="type">Transaction Type:</label>
+  <select id="type" [(ngModel)]="transaction.type" name="type">
+    <option value="Deposit">Deposit</option>
+    <option value="Withdrawal">Withdrawal</option>
+    <option value="Transfer">Transfer</option>
+    <option value="Loan Payment">Loan Payment</option>
+  </select>
+
+  <label for="amount">Amount:</label>
+  <input type="number" id="amount" [(ngModel)]="transaction.amount" name="amount" required>
+
+  <label for="amount">Date of Transaction:</label>
+  <input type="date" id="date" [(ngModel)]="transaction.transactionDate" name="date" required>
+ 
+  <label>Status:</label>
+  <select [(ngModel)]="transaction.status" name="status">
+    <option value="pending">Pending</option>
+    <option value="approved">Approved</option>
+    <option value="rejected">Rejected</option>
+
+  </select>
+  <button type="submit">Submit Transaction</button>
+</form>
+
