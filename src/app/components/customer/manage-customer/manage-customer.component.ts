@@ -15,8 +15,9 @@ export class ManageCustomerComponent {
   customerForm: FormGroup;
   editIndex: number | null = null;
   base64Image: string = '';
-  selectedCustomer: any = null;
-  showDetailsModal: boolean = false;
+  // selectedCustomer: any = null;
+  // showDetailsModal: boolean = false;
+  viewedCustomer : any = null;
   
 
  
@@ -56,7 +57,10 @@ loadCustomer() {
 
 
 viewCustomer(index: number) {
-  this.router.navigate(['/employee-details', index]);
+  this.viewCustomer = this.customer[index];
+
+
+  
 }
 
   // View customer details

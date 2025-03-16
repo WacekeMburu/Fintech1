@@ -73,6 +73,17 @@
 
   
         </td>
+
+        <div *ngIf="viewedCustomer">
+          <h3>Customer Details</h3>
+          <p><strong>Full Name:</strong> {{ viewedCustomer.fullName }}</p>
+          <p><strong>Email:</strong> {{ viewedCustomer.email }}</p>
+          <p><strong>Phone Number:</strong> {{ viewedCustomer.phoneNumber }}</p>
+          <p><strong>Date of Registration:</strong> {{ viewedCustomer.registrationDate }}</p>
+          <p><strong>Customer Type:</strong> {{ viewedCustomer.customerType }}</p>
+          <img *ngIf="viewedCustomer.profilePicture" [src]="viewedCustomer.profilePicture" alt="Profile Picture" width="150">
+        </div>
+        
       <!-- <tr *ngIf="loans.length === 0">
         <td colspan="6">No loans found.</td> -->
       </tr>

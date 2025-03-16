@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from 'src/app/services/account.service';
 import { TransactionService } from 'src/app/services/transaction.service';
 
@@ -8,14 +9,51 @@ import { TransactionService } from 'src/app/services/transaction.service';
   templateUrl: './manage-transaction.component.html',
   styleUrls: ['./manage-transaction.component.css']
 })
-export class ManageTransactionComponent implements OnInit{
-  transactions: any[] = [];
+export class ManageTransactionComponent {
+  transaction: any[] = [];
+  transactionForm: FormGroup;
+  editIndex: number | null = null;
+  selectedTransaction: any = null;
+
+updateTransaction() {
+  if (this.transactionForm.valid && this.editIndex !== null) {
+    this.transaction[this.editIndex] = this.transactionForm.value;
+    localStorage.setItem('transaction', JSON.stringify(this.transaction));
+    this.editIndex = null;
+    this.transactionForm.reset();
+  }
+
+}
+
+deleteTransaction(index: number) {
+  if (confirm('Are you sure you want to delete this transaction?')) {
+    this.transaction.splice(index, 1);
+    localStorage.setItem('employee', JSON.stringify(this.transaction));
+  }
+
+}
+
+viewTransaction(index: number) {
+  // this.router.navigate(['/employee-details', index]);
+
+}
+
+
   editingTransaction: any = null;
   newTransaction: any = { accountNumber: '', type: '', amount: 0, date: new Date(), status: ''};
 
-  constructor(private transactionService: TransactionService,
+
+  constructor(private fb: FormBuilder, private transactionService: TransactionService,
     private accountService: AccountService
-  ) {}
+  ) {
+    this.transactionForm = this.fb.group({
+      accountNumber: ['', Validators.required],
+      type: ['', Validators.required],
+      amount: ['', Validators.required],
+      date: ['', Validators.required],
+      status: ['', Validators.required]
+    })
+  }
 
   ngOnInit() {
     this.loadTransactions();
@@ -27,46 +65,21 @@ export class ManageTransactionComponent implements OnInit{
 
   loadTransactions() {
     const allTransactions = this.transactionService.getTransactions();
-    this.transactions = Array.from(new Set(allTransactions.map(t => JSON.stringify(t)))).map(t => JSON.parse(t));
+    this.transaction = Array.from(new Set(allTransactions.map(t => JSON.stringify(t)))).map(t => JSON.parse(t));
   }
   
 
-  addTransaction () {
+  // addTransaction () {
 
-  }
+  // }
 
-  editTransaction(transaction: any) {
-    this.editingTransaction = { ...transaction }; // Create a copy to edit
+  editTransaction(index: number) {
+    // this.editingTransaction = { ...transaction }; // Create a copy to edit
+   
+      this.editIndex = index;
+      this.transactionForm.setValue(this.transaction[index]);
   }
   
-
-
-
-
-  saveTransaction() {
-    if (!this.editingTransaction) return;
-
-    const oldTransaction = this.transactions.find(t => t.id === this.editingTransaction.id);
-
-    if (oldTransaction) {
-      // If the transaction status is "Approved," update account balance
-      if (this.editingTransaction.status === 'Approved' && oldTransaction.status !== 'Approved') {
-        this.accountService.updateAccountBalance(
-          this.editingTransaction.accountNumber,
-          this.editingTransaction.amount,
-          this.editingTransaction.type
-        );
-      }
-
-      this.transactionService.updateTransaction(this.editingTransaction);
-      this.loadTransactions();
-      this.editingTransaction = null;
-    }
-  }
-
-  cancelEdit() {
-    this.editingTransaction = null;
-  }
 
   trackById(index: number, transaction: any) {
     return transaction.id;

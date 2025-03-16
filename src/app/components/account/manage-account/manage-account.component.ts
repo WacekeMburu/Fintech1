@@ -48,6 +48,10 @@ cancelEdit() {
   //   return customer ? customer.fullName : 'Unknown';
   // }
   deleteAccount(accountNumber: string) {
+    if (confirm('Are you sure you want to delete this account?')) {
+       this.account.splice;
+      
+    }
     this.accountService.deleteAccount(accountNumber);
     this.loadAccounts();
   }
